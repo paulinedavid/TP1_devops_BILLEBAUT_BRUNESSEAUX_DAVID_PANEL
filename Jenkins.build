@@ -5,18 +5,22 @@ pipeline {
   agent {
     label 'jenkins-slave'
   }
+  
+  tools {
+    'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+  }
 
   stages {
     stage('Cloning Git') {
       steps {
-        git branch: 'main', credentialsId: 'myid', url: '......'
+        git branch: 'main', credentialsId: 'myid', url: 'https://github.com/ST2DCE/2024-2025.git'
       }
     }
     stage('Building backend image') {
       steps {
         script {
           dir('TP-1/backend') {
-            backendImage = docker.build("efrei2023/backend:1")
+            backendImage = docker.build("efrei2023/backend-panel:2002")
 
           }
         }
@@ -37,7 +41,7 @@ pipeline {
       steps {
         script {
           dir('TP-1/frontend') {
-            frontendImage = docker.build("efrei2023/frontend:1")
+            frontendImage = docker.build("efrei2023/frontend-panel:2002")
           }
         }
       }
